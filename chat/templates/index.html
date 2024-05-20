@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        let ws = null;
+        
+        function connect() {
+            ws = new WebSocket('ws://localhost:8000/ws/chat/a1/');
+            ws.onopen = () => { alert('connected'); }
+            ws.onclose = () => { alert('closed'); }
+            ws.onmessage = (e) => { alert('Message received: ' + e.data); }
+            ws.onerror = (e) => { alert('Error happened: ' + e); }
+        }
+        
+        function disconnect() {
+            ws.close();
+        }
+        
+        function sendCurrentTime() {
+            // send data to the WebSocket server
+            ws.send(new Date());
+        }
+        
+        function sendValue() {
+            let inputValue = document.getElementById("inputValue").value;
+            ws.send(inputValue);
+        }
+    </script>
+</head>
+<body>
+    <button onclick="connect()">Connect to Websocket server</button>
+    <button onclick="disconnect()">Disconnect from Websocket server</button>
+    <button onclick="sendCurrentTime()">Send current time</button>
+    
+    <br><br>
+    
+    <input type="text" id="inputValue" placeholder="Enter a value">
+    <button onclick="sendValue()">Send value</button>
+</body>
+</html>
